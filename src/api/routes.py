@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Videogame
+from api.models import db, User, Videogame, Gender
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
@@ -45,3 +45,14 @@ def save_videogame(videogame_id):
     db.session.commit()
 
     return jsonify("Videojuego created"), 200
+
+# CREATE GENDER
+@api.route('/Gender', methods=['POST'])
+def save_gender(gender_id):
+    type = request.json.get("type" ,None)
+    
+    new_gender = Gender(gender_id = gender_id)
+    db.session.add(new_gender)
+    db.session.commit()
+
+    return jsonify("Gender created"), 200
